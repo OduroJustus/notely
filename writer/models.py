@@ -35,8 +35,10 @@ class Article(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     last_modified_at = models.DateTimeField(auto_now=True)
     posted_at = models.DateTimeField(blank=True, null=True)
-    is_published = models.BooleanField(default=False, verbose_name="Published this article?")
-    is_premium = models.BooleanField(default=False, verbose_name="Is premium content?")
+    is_published = models.BooleanField(default=False, verbose_name="Publish this article?")
+    is_premium = models.BooleanField(default=False, verbose_name="Is premium?")
+    is_standard = models.BooleanField(default=False, verbose_name="Is standard?")
+    is_free = models.BooleanField(default=True, verbose_name="Is free?")
     last_modified_by = models.ForeignKey(
         CustomUser,
         on_delete=models.SET_NULL,
@@ -57,6 +59,7 @@ class Article(models.Model):
         verbose_name_plural = "Articles"
         ordering = ['title']  # Order by name by default
 
+    
 
 class AuditLog(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

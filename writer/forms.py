@@ -10,7 +10,7 @@ class ArticleForm(ModelForm):
     content = forms.CharField(widget=CKEditor5Widget(config_name='extends'))
     class Meta:
         model = Article
-        fields = ["title", "content", "category","is_premium", "is_published"]
+        fields = ["title", "content", "category", "is_premium", "is_standard", "is_free", "is_published"]
 
     def __init__(self, *args, **kwargs):
         # Accept a user argument for logging purposes
@@ -28,6 +28,7 @@ class ArticleForm(ModelForm):
         content = cleaned_data.get("content")
         is_premium = cleaned_data.get("is_premium")
         is_published = cleaned_data.get("is_published")
+        is_standard = cleaned_data.get("is_standard")
 
         if not title:
             self.add_error("title", _("Title cannot be empty."))
@@ -35,15 +36,21 @@ class ArticleForm(ModelForm):
         if not content:
             self.add_error("content", _("Content cannot be empty."))
 
-        # Business rule: Premium articles must be published
+        # Business rule: Premium articles must be publish
         if is_premium and not is_published:
-            self.add_error("is_published", _("Premium articles must be published."))
+            self.add_error("is_published", _("Premium article must be publish."))
+        
+        if is_standard and not is_published:
+            self.add_error("is_published", _("Standard article must be publish."))
 
         return cleaned_data
 
     def save(self, commit=True):
         """
         Override save to enforce business logic and log edits.
+        - Auto slugify the title if slug is not provided.
+        - Ensure is_published is True if is_premium or is_standard.
+        - Log changes to the article if it is being updated.
         """
         article = super().save(commit=False)
 
@@ -52,7 +59,7 @@ class ArticleForm(ModelForm):
             article.slug = slugify(article.title)
 
         # Enforce is_published = True if is_premium
-        if article.is_premium:
+        if article.is_premium or article.is_standard:
             article.is_published = True
 
         is_create = article.pk is None  # Check if this is a new article

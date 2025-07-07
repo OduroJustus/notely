@@ -58,3 +58,27 @@ def user_logout(request):
     """
     logout(request)
     return redirect('home')  # Redirect to the home page after logout   
+
+
+def privacy_policy(request):
+    """
+    Render the privacy policy page.
+    """
+    return render(request, 'terms/privacy_policy.html')
+
+def terms_of_service(request):
+    """
+    Render the terms of service page.
+    """
+    return render(request, 'terms/terms_of_service.html')
+
+def contact_us(request):
+    """
+    Render the contact us page.
+    """
+    return render(request, 'terms/contact_us.html')
+def about_us(request):
+    """ 
+    Render the about us page.
+    """
+    return render(request, 'terms/about_us.html')

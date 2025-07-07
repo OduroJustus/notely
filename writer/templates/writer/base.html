@@ -114,10 +114,16 @@
 
     {% comment %}{% include 'writer/footer.html' %}{% endcomment %}
     {% comment %}This is the footer section. It can be included in other templates if needed.{% endcomment %}
-    <footer id="footer" class="bg-light text-center text-lg-start mt-5">
+    <footer id="footer" class="bg-light text-lg-start mt-5">
       <div class="text-center p-3">
         © 2023 Notely:
-        <a class="text-dark" href="#">notely.com | All rights reserved.</a>
+        <a class="text-dark text-decoration-none" href="#">notely.com | All rights reserved.</a>
+      
+        <a class="text-dark ms-4 text-decoration-none" href="{% url 'privacy_policy' %}">Privacy Policy</a> |
+        <a class="text-dark text-decoration-none" href="{% url 'terms_of_service' %}">Terms of Service</a>|
+        <a class="text-dark text-decoration-none" href="{% url 'contact_us' %}">Contact Us</a>|
+        <a class="text-dark text-decoration-none" href="{% url 'about_us' %}">About Us</a>
+        <span class="ms-4 text-info">Last Loggedin: {{ user.last_login}}</span>
       </div>
     </footer>
 

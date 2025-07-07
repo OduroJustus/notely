@@ -35,15 +35,8 @@
             <li class="nav-item">
             <a class="nav-link" href="{% url 'client_dashboard' %}">{{ user.first_name}}'s Dashboard</a>
             </li>
-            <li class="nav-item dropdown" data-bs-theme="light">
-              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Menu</a>
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuLinks">
-                <a class="dropdown-item" href="{% url 'author_articles' %}">My Article</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="{% url 'create_article' %}">Create Article</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="{% url 'get_edited_articles_by_writer' %}">Edited Articles</a>
-              </div>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'list_articles' %}">Browse Articles</a>
             </li>
             {% comment %}
             <li class="nav-item dropdown" data-bs-theme="light">
@@ -100,7 +93,6 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{% url 'user_logout' %}">Logout</a>
-              <p>{{ user.last_name }}</p>
             </li>
           </ul>
         </div>
@@ -114,10 +106,16 @@
 
     {% comment %}{% include 'writer/footer.html' %}{% endcomment %}
     {% comment %}This is the footer section. It can be included in other templates if needed.{% endcomment %}
-    <footer id="footer" class="bg-light text-center text-lg-start mt-5">
+    <footer id="footer" class="bg-light text-lg-start mt-5">
       <div class="text-center p-3">
         © 2023 Notely:
-        <a class="text-dark" href="#">notely.com | All rights reserved.</a>
+        <a class="text-dark text-decoration-none" href="#">notely.com | All rights reserved.</a>
+      
+        <a class="text-dark ms-4 text-decoration-none" href="{% url 'privacy_policy' %}">Privacy Policy</a> |
+        <a class="text-dark text-decoration-none" href="{% url 'terms_of_service' %}">Terms of Service</a>|
+        <a class="text-dark text-decoration-none" href="{% url 'contact_us' %}">Contact Us</a>|
+        <a class="text-dark text-decoration-none" href="{% url 'about_us' %}">About Us</a>
+        <span class="ms-4 text-info">Last Loggedin: {{ user.last_login}}</span>
       </div>
     </footer>
 

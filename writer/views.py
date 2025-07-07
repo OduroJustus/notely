@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
+from datetime import datetime
 from .forms import ArticleForm,UpdateUserForm
 from .models import Article, AuditLog
 from account.models import CustomUser
@@ -76,6 +77,8 @@ def update_article(request,pk):
     if request.method == "POST":
         form = ArticleForm(request.POST, instance=article, user=request.user)
         if form.is_valid():
+            form.last_modified_at = datetime.now()
+            form.last_modified_by = request.user
             form.save()
             return redirect("author_articles")
     else:
@@ -83,47 +86,6 @@ def update_article(request,pk):
 
     context = {"updateArticleForm": form}
     return render(request, "writer/update_article.html", context)
-
-# @login_required(login_url='user_login')
-# def update_article(request,pk):
-#     """
-#     This function allows the author to update their article.
-#     It retrieves the article by its primary key (pk) and checks if the user is the author of the article.
-#     If the user is not the author, it returns an error message.
-#     If the request method is POST, it updates the article with the data from the form.
-#     If the request method is GET, it renders the form with the article data.
-#     If the article does not exist, it returns an error message.
-#     The function returns a rendered template with the form for updating the article.
-#     If the article is successfully updated, it redirects to the author's articles page.
-#     :param request: The HTTP request object.
-#     :param pk: The primary key of the article to be updated.
-#     :return: A rendered template with the form for updating the article or a redirect to the author's articles page.
-#     :raises Article.DoesNotExist: If the article with the given primary key does not exist.
-#     :raises PermissionDenied: If the user is not the author of the article.
-#     :raises Http404: If the article does not exist.
-#     :raises ValueError: If the form data is not valid.
-#     :raises Exception: If there is an error while updating the article.
-#     :raises Redirect: If the article is successfully updated, it redirects to the author's articles page.
-#     """
-#     try:
-#         article = Article.objects.get(id=pk, user=request.user)
-#         if request.method == "POST":
-#             form = ArticleForm(request.POST, instance=article)
-#             if form.is_valid():
-#                 form.save()
-#                 return redirect('author_articles')  # Redirect to the dashboard or another page after saving
-#         else:
-#             form = ArticleForm(instance=article)
-#         # If the request is GET, render the form
-#         context = {
-#             "updateArticleForm": form,
-#         }
-#         return render(request, "writer/update_article.html", context)
-#     except Article.DoesNotExist:
-#         return render(
-#             request, "writer/read_article.html", {"message": "Article not found."}
-#         )
-
 
 @login_required(login_url='user_login')
 def read_article(request, pk):
