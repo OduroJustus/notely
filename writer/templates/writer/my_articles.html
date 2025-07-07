@@ -1,0 +1,65 @@
+{% extends 'writer/base.html' %}
+{% block title %}My Articles{% endblock %}
+
+{% block content %}
+<div class="container bg-white p-5 shadow-md rounded">
+    <h3 class="muted mb-3">My Articles</h3>
+    {% if articles %}
+    {% for article in articles %}
+    <div class="accordion mb-1" id="accordion-{{ article.id }}">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="heading-{{ article.id }}">
+                <button class="accordion-button collapsed" type="button" 
+                        data-bs-toggle="collapse" 
+                        data-bs-target="#collapse-{{ article.id }}" 
+                        aria-expanded="false" 
+                        aria-controls="collapse-{{ article.id }}">
+                    <h5 class="mb-0">{{ article.title }}</h5>
+                    {% if article.is_premium %}
+                        <span class="badge bg-warning text-dark p-2 ms-2">Premium</span>
+                    {% else %}
+                        <span class="badge bg-success p-2 ms-2">Free</span>
+                    {% endif %}
+                    {% if article.is_published %}
+                        <span class="badge bg-info p-2 ms-2">Published</span>
+                    {% else %}
+                        <span class="badge bg-dark p-2 ms-2">Draft</span>
+                    {% endif %}
+                </button>
+            </h2>
+            <div id="collapse-{{ article.id }}" 
+                class="accordion-collapse collapse" 
+                aria-labelledby="heading-{{ article.id }}" 
+                data-bs-parent="#accordion-{{ article.id }}">
+                <div class="accordion-body">
+                    {% if article.image %}
+                    <img src="{{ article.image.url }}" alt="{{ article.title }}" class="img-fluid mb-2" style="max-width: 200px;">
+                    {% endif %}
+                    <p class="article-body">{{ article.content|safe }}</p>
+                    <p><small>Created by: <span class="text-primary">{{ article.user.first_name }} {{ article.user.last_name }}</span> at {{ article.created_at|date:"l, F jS, Y @ h:i A" }}</small></p>
+                    <a href="{% url 'update_article' article.id %}" class="btn btn-outline-warning">Edit</a>
+                    <a href="{% url 'article_edited_history' article.pk %}" class="btn btn-outline-info">View Edit History</a>
+                    {% if article.is_published %}
+                        <a href="{% url 'publish_unpublish_article' article.id %}" class="btn btn-outline-secondary">Unpublish</a>
+                    {% else %}
+                        <a href="{% url 'publish_unpublish_article' article.id %}" class="btn btn-outline-success">Publish</a>
+                    {% endif %}
+                    {% if article.is_premium %}
+                        <a href="{% url 'set_unset_premium_article' article.id %}" class="btn btn-outline-dark">Set to Free</a>
+                    {% else %}
+                        <a href="{% url 'set_unset_premium_article' article.id %}" class="btn btn-outline-dark">Set to Premium</a>
+                    {% endif %}
+                    <a href="{% url 'delete_article' article.id %}" class="btn btn-outline-danger">Delete</a>  
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <p class="text-danger">Sorry, <span style="color:blue;">{{ user.first_name }}</span> you have not created any articles yet. <br />  Click create new article button to articles ✍🏼.</p>
+    <a href="{% url 'create_article' %}" class="btn btn-success mt-3">Create New Article</a>
+    <a href="{% url 'writer_dashboard' %}" class="btn btn-secondary mt-3">Back to Dashboard</a> 
+    {% endif %}
+</div>
+
+{% endblock %}

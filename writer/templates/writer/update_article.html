@@ -1,0 +1,28 @@
+{% extends 'writer/base.html' %}
+{% block title %}Update Article{% endblock %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container bg-white p-5 shadow-md">
+    <h3 class="text-muted" style="margin-left:202px;">Update Article</h3>
+    <br />
+    <form action="" method="POST" autocomplete="off" enctype="multipart/form-data" accept-charset="utf-8">
+        {% csrf_token %}
+            <div class="col-md-8 offset-md-2">
+                {% if form.errors %}
+                    <div class="alert alert-danger">
+                        <strong>Error!</strong> Please correct the errors below.
+                    </div>
+                {% endif %}
+                {{ updateArticleForm|crispy }}
+            </div>
+         <br />
+        <a href="{% url 'author_articles' %}" class="btn btn-secondary btn-lg" style="margin-left: 198px;">Cancel</a>
+        <button type="submit" class="btn btn-primary btn-lg ms-2">Update</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block ckeditor5_media %}
+{{ updateArticleForm.media }}
+{% endblock %}

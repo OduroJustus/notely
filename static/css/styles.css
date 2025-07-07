@@ -1,0 +1,46 @@
+body{
+    background-color: #f0f0fa;
+    font-family: Arial, sans-serif;
+}
+
+.form-layout {
+    max-width: 580px;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+.form-layout-lg {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-layout-sm {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+.article-body {
+    font-family: "Roboto", sans-serif;
+    line-height: 1.6;
+    text-align: justify;
+}
+.article-body h1,
+.article-body h2,
+.article-body h3,
+.article-body h4,
+.article-body h5,
+.article-body h6 {
+    color: #333;
+}
+
+.article-body img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+}

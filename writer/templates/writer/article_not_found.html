@@ -1,0 +1,10 @@
+{% extends 'writer/base.html' %} {% block title %}Article Not Found{%endblock %} 
+{%block content %}
+<div class="container bg-white p-5 shadow-md rounded text-center">
+  <h3 class="text-danger">Article Not Found.</h3>
+  <h2>Sorry the requested article could not be found.</h2>
+  <p>Please check and try again.</p>
+  <a href="{% url 'author_articles' %}" class="btn btn-primary">Go Back</a>
+</div>
+
+{% endblock %}

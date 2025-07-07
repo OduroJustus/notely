@@ -1,0 +1,64 @@
+{% extends 'writer/base.html' %}
+{% block title %}Article Modification History{% endblock %}
+
+{% block content %}
+{% comment %}
+<div class="container bg-white p-5 shadow-md rounded">
+    <h2>Edit History for: {{ article.title }}</h2>
+    <hr>
+
+    {% if audit_logs %}
+        <ul class="list-group">
+            {% for log in audit_logs %}
+                <li class="list-group-item">
+                    <strong>{{ log.user.first_name }}&nbsp;{{ log.user.last_name }}</strong>
+                    changed <em>{{ log.field_name }}</em>
+                    <p class="article-body"><strong>Old:</strong> {{ log.old_value|safe }}</p>
+                    <p class="article-body"><strong>New:</strong> {{ log.new_value|safe }}</p>
+                    <small class="text-muted">{{ log.timestamp }}</small>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No edits have been logged for this article yet.</p>
+    {% endif %} 
+</div>
+{% endcomment %}
+<div class="container bg-white p-5 shadow-md rounded">
+    {% if audit_logs %}
+    {% for log in audit_logs %}
+    <div class="accordion mb-2" id="accordion-{{ log.id }}">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="heading-{{ log.id }}">
+                <button class="accordion-button collapsed" type="button" 
+                        data-bs-toggle="collapse" 
+                        data-bs-target="#collapse-{{ log.id }}" 
+                        aria-expanded="false" 
+                        aria-controls="collapse-{{ log.id }}">
+                Edit History for: {{ article.title }}
+            </button>
+          </h2>
+          <!-- <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#{{ log.id }}"> -->
+            <div id="collapse-{{ log.id }}" 
+                class="accordion-collapse collapse" 
+                aria-labelledby="heading-{{ log.id }}" 
+                data-bs-parent="#accordion-{{ log.id }}">
+            <div class="accordion-body">
+                <strong>{{ log.user.first_name }}&nbsp;{{ log.user.last_name }}</strong>
+                modified "&nbsp;<span style="color: blue;">{{ article.title }}</span>&nbsp;"&nbsp;<em>{{ log.field_name }} at {{ log.timestamp|date:"F j, Y, A" }}</em>
+                <hr style="border-top: 1px solid #ccc;">
+              <strong style="color:red;">Old Content</strong> 
+              <p class="article-body" style="color: blue;">{{ log.old_value|safe }}</p>
+              <hr>
+              <strong style="color:blue;">New Content</strong> 
+              <p class="article-body">{{ log.new_value|safe }}</p>
+            </div>
+          </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+        <p>No edits have been logged for this article yet.</p>
+    {% endif %} 
+</div>
+{% endblock %}

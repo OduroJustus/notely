@@ -1,0 +1,141 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Notely | {% block title %}{% endblock%}</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width-device-width, initial-scale=1, maximum-scale=1"/>
+
+    <!-- <link rel="stylesheet" href="https://bootswatch.com/5/minty/bootstrap.css">
+    <link rel="stylesheet" href="https://bootswatch.com/_vendor/bootstrap-icons/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://bootswatch.com/_vendor/prismjs/themes/prism-okaidia.css">
+    <link rel="stylesheet" href="https://bootswatch.com/_assets/css/custom.min.css"> -->
+    
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
+    <!-- <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-icons.min.css' %}"> -->
+    <link rel="stylesheet" href="https://bootswatch.com/_vendor/bootstrap-icons/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/prism-okaidia.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/custom.min.css' %}">
+    
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+  </head>
+
+  <body class="d-flex flex-column min-vh-100">
+
+    <div class="navbar navbar-expand-lg fixed-top bg-primary" data-bs-theme="dark">
+      <div class="container">
+        <a href="{% url 'home' %}" title="Go to main page" class="navbar-brand main-heading" style="color:#633393;">&nbsp; Notely </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+            <a class="nav-link" href="{% url 'client_dashboard' %}">{{ user.first_name}}'s Dashboard</a>
+            </li>
+            <li class="nav-item dropdown" data-bs-theme="light">
+              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Menu</a>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuLinks">
+                <a class="dropdown-item" href="{% url 'author_articles' %}">My Article</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{% url 'create_article' %}">Create Article</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{% url 'get_edited_articles_by_writer' %}">Edited Articles</a>
+              </div>
+            </li>
+            {% comment %}
+            <li class="nav-item dropdown" data-bs-theme="light">
+              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" id="themes">Menu</a>
+              <div class="dropdown-menu" aria-labelledby="themes">
+                <a class="dropdown-item" href="../default/">Default</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="../brite/">Brite</a>
+                <a class="dropdown-item" href="../cerulean/">Cerulean</a>
+              </div>
+            </li>
+            {% endcomment %}
+            <li class="nav-item dropdown" data-bs-theme="light">
+              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">{{ user.first_name}}'s Account</a>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuLinks">
+                <a class="dropdown-item" href="#">Account Management</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{% url 'account_management' %}">Update Profile Info</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{% url 'create_article' %}">Change Password</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{% url 'delete_account' %}">Delete Account</a>
+              </div>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="https://blog.bootswatch.com/">Blog</a>
+            </li>
+            
+          </ul>
+          
+          <ul class="navbar-nav ms-md-auto">
+            <form class="d-flex">
+              <input class="form-control me-sm-2" type="search" placeholder="Search">
+              <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+            </form>
+            
+            <li class="nav-item dropdown" data-bs-theme="light">
+              <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="theme-menu" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" aria-label="Toggle theme">
+                <i class="bi bi-circle-half"></i>
+                <span class="d-lg-none ms-2">Toggle theme</span>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li>
+                  <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light" aria-pressed="false">
+                    <i class="bi bi-sun-fill"></i><span class="ms-2">Light</span>
+                  </button>
+                </li>
+                <li>
+                  <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="true">
+                    <i class="bi bi-moon-stars-fill"></i><span class="ms-2">Dark</span>
+                  </button>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'user_logout' %}">Logout</a>
+              <p>{{ user.last_name }}</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <main class="flex-grow-1">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    {% comment %}{% include 'writer/footer.html' %}{% endcomment %}
+    {% comment %}This is the footer section. It can be included in other templates if needed.{% endcomment %}
+    <footer id="footer" class="bg-light text-center text-lg-start mt-5">
+      <div class="text-center p-3">
+        © 2023 Notely:
+        <a class="text-dark" href="#">notely.com | All rights reserved.</a>
+      </div>
+    </footer>
+
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/prism.js' %}"></script>
+    <script src="{% static 'js/custom.js' %}"></script>
+    <script src="{% static 'js/script.js' %}"></script>
+    
+    <!-- CKEditor 5 Block -->
+    {% block ckeditor5_media %}
+    {% endblock %}
+  </body>
+</html>
+
+
+{% comment %}
+  This is the base template for the Writer subplatform. It includes a navigation bar
+  with links to register and login, and a content area where other templates can extend
+  and insert their own content.
+{% endcomment %}
+

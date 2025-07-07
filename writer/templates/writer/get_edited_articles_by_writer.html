@@ -1,0 +1,21 @@
+{% extends 'writer/base.html' %}
+ {% block title %}Edited Articles{%endblock %} 
+ {% block content %}
+<div class="container bg-white p-5 shadow-md rounded">
+  <h2>Articles You Have Edited</h2>
+    <hr>
+    {% if edited_articles %}
+        <ul class="list-group">
+            {% for article in edited_articles %}
+                <li class="list-group-item">
+                    <a href="{% url 'article_edited_history' article.pk %}">
+                        {{ article.title }}
+                    </a> (Last updated: {{ article.updated_at|date:"M d, Y H:i" }})
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>You have not edited any articles yet.</p>
+    {% endif %}
+</div>
+{% endblock %}
